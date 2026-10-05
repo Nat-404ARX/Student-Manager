@@ -1,13 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication.Models.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using StudentManager.Models.Entities;
 
-namespace WebApplication.Data
+namespace StudentManager.Data
 {
-    public class StudentContext : DbContext
+    // ApplicationDbContext combines Identity and the application's Student entity.
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        public StudentContext(DbContextOptions<StudentContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
         public DbSet<Student> Students { get; set; }
     }
 }

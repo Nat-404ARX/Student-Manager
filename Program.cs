@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManager.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace StudentManager.Data
 {
@@ -11,6 +12,17 @@ namespace StudentManager.Data
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
+
+            // Configure EF Core with SQL Server and Identity
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
@@ -25,6 +37,7 @@ namespace StudentManager.Data
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
@@ -34,6 +47,8 @@ namespace StudentManager.Data
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+            // Identity UI routes (Login, Register, Account Management)
+            app.MapRazorPages();
 
             app.Run();
         }

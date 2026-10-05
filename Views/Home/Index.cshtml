@@ -2,7 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
+@functions {
+    private string getStudent()
+    {
+        return "";
+    }
+}
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>@(getStudent())</p>
+    @for (int i = 0; i < 10; i++)
+    {
+        <p>Student @i</p>
+    }
 </div>
